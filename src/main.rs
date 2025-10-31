@@ -113,6 +113,7 @@ fn main() -> anyhow::Result<()> {
   display.flush().unwrap();
 
   let mut httpserver = EspHttpServer::new(&HttpServerConfig::default())?;
+  
   httpserver.fn_handler(
     "/change",
     Method::Get,
@@ -139,47 +140,15 @@ fn main() -> anyhow::Result<()> {
 
   // Loop to Avoid Program Termination
   loop {
-
     sleep(Duration::from_millis(1000));
   }
 }
 
 fn index_html() -> String {
-  format!(
-    r#"
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Esp32 Web Server</title>
-    </head>
-    <body style="text-align: center;">
-    <h1>Welcome to the ESP32 Web Server!</h1>
-    <br/>
-    <h1>Control the LED</h1>
-    <h2>Go to <a href="/change">/change</a> to toggle the LED.</h2>
-    </body>
-</html>
-"#
-  )
+  include_str!("../web/index.html").to_string()
 }
 
 fn change_html() -> String {
-  format!(
-    r#"
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Esp32 Web Server</title>
-    </head>
-    <body style="text-align: center;">
-    <h1 style="font-size: 32px">LED toggled!</h1>
-    <h1>To toggle again, press the button.</h1>
-    <br/>
-    <button onclick="location.href='/change'" style="padding: 10px 20px; font-size: 32px;">Toggle</button>
-    </body>
-</html>
-"#
-  )
+  include_str!("../web/change.html").to_string()
 }
+
